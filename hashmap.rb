@@ -1,3 +1,15 @@
+class HashNode
+    attr_accessor :key, :value
+    def initialize(key, value=nil)
+
+        newHash = Hash.new
+        @key = key
+        @value = value
+        newHash = {@key => @value}
+    end
+end
+
+
 
 class HashMap
     
@@ -18,11 +30,22 @@ class HashMap
     def set(key, value)
         keyBucket = hash(key)
 
+        ##Need to work on collision##
         raise IndexError if keyBucket.negative? || keyBucket >= @buckets.length
-        @buckets[keyBucket] = {key => value}
-        
+        x = HashNode.new(key, value)
+        p x.key
+
+        @buckets[keyBucket] = x
     end
+
+    def get(key)
+        x = hash(key)
+        
+        @buckets[x]
+    end
+
 end
 
 x = HashMap.new
-p x.set("alex", "bajskorv")
+x.set("alex", "bajskorv")
+#p x.get("alex")
