@@ -1,15 +1,9 @@
 class HashNode
-    attr_accessor :key, :value
-    def initialize(key, value=nil)
-
-        newHash = Hash.new
-        @key = key
-        @value = value
-        newHash = {@key => @value}
+    attr_accessor :data
+    def initialize(key_value_pair)
+        @data = key_value_pair
     end
 end
-
-
 
 class HashMap
     
@@ -26,26 +20,61 @@ class HashMap
         ##Create function later that changes the value for modulo if the buckets grows##
         hash_code % 16
     end
+
+    def checking_bucket
+        p @buckets
+    end
      
     def set(key, value)
         keyBucket = hash(key)
 
         ##Need to work on collision##
         raise IndexError if keyBucket.negative? || keyBucket >= @buckets.length
-        x = HashNode.new(key, value)
-        p x.key
+        x = HashNode.new({key => value})
 
         @buckets[keyBucket] = x
     end
 
     def get(key)
         x = hash(key)
-        
-        @buckets[x]
+
+        if @buckets[x]
+            @buckets[x].data[key]
+        else
+            nil
+        end
     end
 
+    def has?(key)
+        x = hash(key)
+
+        if @buckets[x]
+            true
+          else
+            false
+        end   
+    end
+
+    def remove(key)
+        x = hash(key)
+
+        if @buckets[x]
+            p @buckets[x].data[key]
+            
+            @buckets[x] = nil
+        else
+            nil
+        end
+
+
+    end
 end
 
 x = HashMap.new
 x.set("alex", "bajskorv")
-#p x.get("alex")
+p x.get("alex")
+x.set("alex", "hejdå")
+#x.checking_bucket
+x.remove("alex")
+p x.get("alex")
+#x.checking_bucket
