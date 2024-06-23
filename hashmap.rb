@@ -59,22 +59,82 @@ class HashMap
         x = hash(key)
 
         if @buckets[x]
-            p @buckets[x].data[key]
-            
+            value = @buckets[x].data[key]
             @buckets[x] = nil
+            value
         else
             nil
         end
-
-
     end
+
+    def length
+        amountKeys = 0
+
+        for i in @buckets
+            if i != nil
+                amountKeys += 1
+            end
+        end
+        amountKeys
+    end
+
+    def clear
+        @buckets.each_with_index do |val, idx|
+            if val != nil
+                @buckets[idx] = nil
+            end
+        end
+    end
+
+    def keys
+        arr = []
+
+        @buckets.each_with_index do |val, idx|
+            if val != nil
+                arr << @buckets[idx].data.keys
+            end
+        end
+        arr
+    end
+
+    def values
+        arr = []
+
+        @buckets.each_with_index do |val, idx|
+            if val != nil
+                arr << @buckets[idx].data.values
+            end
+        end
+        arr 
+    end
+
+    def entries
+        arr = []
+
+        @buckets.each_with_index do |val, idx|
+            if val != nil
+                arr << @buckets[idx].data
+            end
+        end
+        arr
+    end
+
 end
 
 x = HashMap.new
 x.set("alex", "bajskorv")
-p x.get("alex")
+x.get("alex")
 x.set("alex", "hejdå")
 #x.checking_bucket
 x.remove("alex")
-p x.get("alex")
-#x.checking_bucket
+x.get("alex")
+x.set("alex", "bajskorv")
+x.length
+x.clear
+x.checking_bucket
+x.set("alex", "bajskorv")
+x.set("aalex", "bajskorv")
+x.set("aleex", "bajskorv")
+p x.keys
+p x.values
+p x.entries
